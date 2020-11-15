@@ -1,8 +1,8 @@
 <template>
   <div class="hello">
     <h1>{{ msg }}</h1>
-    <h1>{{ step }}</h1>
-    <button @click="nextStep">Next Step</button>
+    <h1>{{ currentStep }}</h1>
+    <button @click="nextStep">Start tour</button>
   </div>
 </template>
 
@@ -13,24 +13,47 @@ export default {
     msg: String,
   },
   data() {
-    return {};
+    return {
+      context: "territory",
+    };
   },
   methods: {
     nextStep() {
       this.$store.dispatch("setCurrentRoute");
       this.$store.dispatch("setCurrentStep");
+      this.$store.dispatch("setCurrentContext");
       this.$router.push(`${this.route}`);
     },
   },
+  // watch: {
+  //   currentContext(currentContext) {},
+  // },
   computed: {
-    step() {
+    currentStep() {
       return this.$store.getters.getCurrentStep;
+    },
+    currentContext() {
+      return this.$store.getters.getCurrentContext;
     },
     route() {
       return this.$store.getters.getCurrentRoute;
     },
+    allSteps() {
+      return this.$store.getters.getAllSteps;
+    },
   },
-  mounted() {},
+  // checkContext() {
+  //   if (localStorage.currentContext != this.context) {
+  //     alert("hi");
+  //   }
+  // },
+  mounted() {
+    if (localStorage.currentStep) {
+      this.$store.dispatch("setStepMountedHook");
+      this.$router.push(`${this.allSteps[this.currentStep - 1].route}`);
+    }
+    // this.checkContext();
+  },
 };
 </script>
 

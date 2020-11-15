@@ -1,5 +1,6 @@
 <template>
   <div>
+    <p>{{ step }}</p>
     <el-popover
       placement="bottom"
       title="Title"
@@ -33,11 +34,15 @@ export default {
     route() {
       return this.$store.getters.getCurrentRoute;
     },
+    context() {
+      return this.$store.getters.getCurrentContext;
+    },
   },
   methods: {
     completed() {
       this.$store.dispatch("setCurrentRoute");
       this.$store.dispatch("setCurrentStep");
+      this.$store.dispatch("setCurrentContext", this.context);
       this.$router.push(`${this.route}`);
     },
   },

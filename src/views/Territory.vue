@@ -1,5 +1,6 @@
 <template>
   <div>
+    <p>{{ step }}</p>
     <el-popover
       placement="bottom"
       title="Title"
@@ -30,6 +31,9 @@ export default {
     step() {
       return this.$store.getters.getCurrentStep;
     },
+    context() {
+      return this.$store.getters.getCurrentContext;
+    },
     route() {
       return this.$store.getters.getCurrentRoute;
     },
@@ -38,6 +42,7 @@ export default {
     completed() {
       this.$store.dispatch("setCurrentRoute");
       this.$store.dispatch("setCurrentStep");
+      this.$store.dispatch("setCurrentContext", this.context);
       this.$router.push(`${this.route}`);
     },
   },
@@ -45,7 +50,16 @@ export default {
     if (this.tourIsComplete == false) {
       this.visible = true;
     }
+    // if (localStorage.currentStep) {
+    //   this.currentStep = JSON.parse(localStorage.currentStep);
+    // };
+    // this.checkContext();
   },
+  // checkContext() {
+  //   if (localStorage.currentContext != this.context) {
+  //     alert("hi");
+  //   }
+  // },
 };
 </script>
 
