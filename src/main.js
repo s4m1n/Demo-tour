@@ -4,6 +4,8 @@ import router from "./router";
 import store from "./store";
 import ElementUI from "element-ui";
 import "element-ui/lib/theme-chalk/index.css";
+import "bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 Vue.use(ElementUI);
 

@@ -26,7 +26,7 @@ export default {
   },
   computed: {
     tourIsComplete() {
-      return this.$store.getters.isCompleted;
+      return this.$store.getters.getIsTourComplete;
     },
     step() {
       return this.$store.getters.getCurrentStep;

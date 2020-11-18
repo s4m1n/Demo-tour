@@ -9,9 +9,7 @@
       content="this is content, this is content, this is content"
       v-model="visible"
     >
-      <el-button slot="reference" @click="visible = !visible"
-        >Content</el-button
-      >
+      <el-button slot="reference">Content</el-button>
     </el-popover>
     <button @click="completed">Complete</button>
   </div>
@@ -26,7 +24,7 @@ export default {
   },
   computed: {
     tourIsComplete() {
-      return this.$store.getters.isCompleted;
+      return this.$store.getters.getIsTourComplete;
     },
     step() {
       return this.$store.getters.getCurrentStep;

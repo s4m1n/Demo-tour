@@ -18,8 +18,9 @@ export default new Vuex.Store({
       },
       { context: "about", route: "/about" },
     ],
-    isCompleted: false,
+    isTourComplete: false,
     currentRoute: null,
+    skipped: false,
   },
   mutations: {
     setCurrentStep(state) {
@@ -39,6 +40,26 @@ export default new Vuex.Store({
     setStepMountedHook(state) {
       state.currentStep = JSON.parse(localStorage.currentStep);
     },
+    setIsTourComplete(state) {
+      state.isTourComplete = true;
+      state.currentStep = 0;
+      state.currentRoute = "/";
+      state.currentContext = null;
+      localStorage.isTourComplete = JSON.stringify(state.isTourComplete);
+      localStorage.removeItem("currentStep");
+      localStorage.removeItem("currentContext");
+    },
+    setIsTourCompleteMountedHook(state) {
+      if (localStorage.isTourComplete) {
+        state.isTourComplete = JSON.parse(localStorage.isTourComplete);
+      } else {
+        this.isTourComplete = this.$store.getters.getIsTourComplete; // response from API
+      }
+    },
+    setSkipped(state) {
+      state.skipped = true;
+      localStorage.skipped = JSON.stringify(state.skipped);
+    },
   },
   actions: {
     async setCurrentStep(state) {
@@ -53,12 +74,21 @@ export default new Vuex.Store({
     async setStepMountedHook(state) {
       state.commit("setStepMountedHook");
     },
+    async setIsTourComplete(state) {
+      state.commit("setIsTourComplete");
+    },
+    async setIsTourCompleteMountedHook(state) {
+      state.commit("setIsTourCompleteMountedHook");
+    },
+    async setSkipped(state) {
+      state.commit("setSkipped");
+    },
   },
   getters: {
     getCurrentStep: (state) => state.currentStep || localStorage.currentStep,
     getCurrentRoute: (state) => state.currentRoute,
     getCurrentContext: (state) => state.currentContext,
-    isCompleted: (state) => state.isCompleted,
+    getIsTourComplete: (state) => state.isTourComplete,
     getAllSteps: (state) => state.allSteps,
   },
   modules: {},
